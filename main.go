@@ -2,22 +2,28 @@ package main
 
 import (
 	"fmt"
-	"web-flash/orm"
-
-	_ "github.com/mattn/go-sqlite3"
+	httpFlash "web-flash/http"
+	"web-flash/routing"
 )
 
-func main() {
-	engine, _ := orm.NewEngine("sqlite3", "gee.db")
-	defer engine.Close()
-	s := engine.NewSession()
-	_, _ = s.Raw("DROP TABLE IF EXISTS User;").Exec()
-	_, _ = s.Raw("CREATE TABLE User(Name text);").Exec()
-	_, _ = s.Raw("CREATE TABLE User(Name text);").Exec()
-	result, _ := s.Raw("INSERT INTO User(`Name`) values (?), (?)", "Tom", "Sam").Exec()
-	count, _ := result.RowsAffected()
-	fmt.Printf("Exec success, %d affected\n", count)
-}
+//import (
+//	"fmt"
+//	"web-flash/orm"
+//
+//	_ "github.com/mattn/go-sqlite3"
+//)
+//
+//func main() {
+//	engine, _ := orm.NewEngine("sqlite3", "gee.db")
+//	defer engine.Close()
+//	s := engine.NewSession()
+//	_, _ = s.Raw("DROP TABLE IF EXISTS User;").Exec()
+//	_, _ = s.Raw("CREATE TABLE User(Name text);").Exec()
+//	_, _ = s.Raw("CREATE TABLE User(Name text);").Exec()
+//	result, _ := s.Raw("INSERT INTO User(`Name`) values (?), (?)", "Tom", "Sam").Exec()
+//	count, _ := result.RowsAffected()
+//	fmt.Printf("Exec success, %d affected\n", count)
+//}
 
 //import (
 //	"fmt"
@@ -56,18 +62,17 @@ func main() {
 //	"web-flash/routing"
 //)
 //
-//func main() {
-//	route := routing.New()
-//	v1 := route.Group("/v1")
-//	v1.Use(func(context *httpFlash.Context) {
-//		fmt.Println("log")
-//	})
-//	{
-//		v1.GET("/hello", func(context *httpFlash.Context) {
-//			context.Html(200, "hello route")
-//		})
-//	}
-//
-//
-//	route.Run(":9090")
-//}
+func main() {
+	route := routing.New()
+	v1 := route.Group("/v1")
+	v1.Use(func(context *httpFlash.Context) {
+		fmt.Println("log")
+	})
+	{
+		v1.GET("/hello", func(context *httpFlash.Context) {
+			context.Html(200, "hello route")
+		})
+	}
+
+	route.Run(":9090")
+}

@@ -8,7 +8,7 @@ import (
 type HandlerFunc func(*httpFlash.Context)
 
 type Route struct {
-	routeMap map[string]HandlerFunc
+	routeMap      map[string]HandlerFunc
 	routeGroupMap map[string]*RouteGroup
 }
 
@@ -21,31 +21,15 @@ func (route *Route) addRoute(method string, pattern string, handler HandlerFunc)
 	route.routeMap[pattern] = handler
 }
 
-func (route *Route) GET(pattern string, handler HandlerFunc) {
-	route.addRoute("GET", pattern, handler)
-}
-
-func (route *Route) POST(pattern string, handler HandlerFunc) {
-	route.addRoute("POST", pattern, handler)
-}
-
-func (route *Route) PUT(pattern string, handler HandlerFunc) {
-	route.addRoute("PUT", pattern, handler)
-}
-
-func (route *Route) DELETE(pattern string, handler HandlerFunc) {
-	route.addRoute("DELETE", pattern, handler)
-}
-
 func New() *RouteGroup {
 	route := &Route{
-		routeMap: make(map[string]HandlerFunc),
+		routeMap:      make(map[string]HandlerFunc),
 		routeGroupMap: make(map[string]*RouteGroup),
 	}
 	return &RouteGroup{
 		prefix: "",
 		parent: nil,
-		route: route,
+		route:  route,
 	}
 }
 
@@ -70,7 +54,7 @@ func (route *Route) Handle(ctx *httpFlash.Context) {
 		}
 	}
 	s := len(handlers)
-	for i := 0; i < s; i++{
+	for i := 0; i < s; i++ {
 		handlers[i](ctx)
 	}
 }
@@ -79,7 +63,7 @@ func (route *Route) Group(prefix string) *RouteGroup {
 	return &RouteGroup{
 		prefix: prefix,
 		parent: nil,
-		route: route,
+		route:  route,
 	}
 }
 
