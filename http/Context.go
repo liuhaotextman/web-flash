@@ -7,19 +7,25 @@ import (
 )
 
 type Context struct {
-	Writer http.ResponseWriter
-	Request *http.Request
-	Path string
-	Method string
+	Writer     http.ResponseWriter
+	Request    *http.Request
+	Path       string
+	Method     string
+	Params     map[string]string
 	StatusCode int
+}
+
+func (c *Context) Param(key string) string {
+	value, _ := c.Params[key]
+	return value
 }
 
 func NewContext(writer http.ResponseWriter, request *http.Request) *Context {
 	return &Context{
-		Writer: writer,
+		Writer:  writer,
 		Request: request,
-		Path: request.URL.Path,
-		Method: request.Method,
+		Path:    request.URL.Path,
+		Method:  request.Method,
 	}
 }
 
@@ -61,7 +67,7 @@ func (c *Context) Json(code int, obj interface{}) {
 	}
 }
 
-func (c *Context) Data(code int, data[]byte) {
+func (c *Context) Data(code int, data []byte) {
 	c.Status(code)
 	c.Writer.Write(data)
 }

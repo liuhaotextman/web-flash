@@ -72,6 +72,10 @@ func main() {
 		v1.GET("/hello", func(context *httpFlash.Context) {
 			context.Html(200, "hello route")
 		})
+		v1.GET("/hello/:id", func(context *httpFlash.Context) {
+			id := context.Param("id")
+			context.Html(200, "id="+id)
+		})
 	}
 
 	route.Run(":9090")
